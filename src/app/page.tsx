@@ -1,20 +1,16 @@
-import { Hero } from '@/components/sections/Hero'
-import { Portfolio } from '@/components/sections/Portfolio'
-import { Services } from '@/components/sections/Services'
-import { TechStack } from '@/components/sections/TechStack'
-import { About } from '@/components/sections/About'
-import { Contact } from '@/components/sections/Contact'
+import { NewHero } from '@/components/sections/NewHero'
+import { PlatformsPreview } from '@/components/sections/PlatformsPreview'
+import { AIDemo } from '@/components/sections/AIDemo'
+import { TechStackPreview } from '@/components/sections/TechStackPreview'
 import { Footer } from '@/components/Footer'
 
 export default function Home() {
   return (
     <>
-      <Hero />
-      <Portfolio />
-      <Services />
-      <TechStack />
-      <About />
-      <Contact />
+      <NewHero />
+      <PlatformsPreview />
+      <AIDemo />
+      <TechStackPreview />
       <Footer />
     </>
   )

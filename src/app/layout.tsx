@@ -11,26 +11,34 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Strata — Software Built in Layers',
+  title: {
+    default: 'Strata — Building Intelligent Platforms',
+    template: '%s | Strata',
+  },
   description:
-    'Strata builds scalable SaaS systems, developer tools, and modern platforms. Engineered systems, scalable by design.',
-  keywords: ['software development', 'SaaS', 'platform engineering', 'API architecture', 'cloud infrastructure'],
+    'Strata designs and builds modern AI-powered platforms, SaaS systems, and automation infrastructure. Premium technology studio.',
+  keywords: ['AI platforms', 'SaaS development', 'automation systems', 'platform engineering', 'software studio'],
   openGraph: {
-    title: 'Strata — Software Built in Layers',
-    description: 'Strata builds scalable SaaS systems, developer tools, and modern platforms.',
+    title: 'Strata — Building Intelligent Platforms',
+    description: 'We design and build modern AI-powered platforms, SaaS systems, and automation infrastructure.',
     type: 'website',
+    siteName: 'Strata',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Strata — Software Built in Layers',
-    description: 'Strata builds scalable SaaS systems, developer tools, and modern platforms.',
+    title: 'Strata — Building Intelligent Platforms',
+    description: 'We design and build modern AI-powered platforms, SaaS systems, and automation infrastructure.',
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
-      <body>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} dark`}>
+      <body className="bg-black text-white antialiased">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <Navigation />
           <main>{children}</main>

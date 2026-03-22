@@ -2,16 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Moon, Sun, Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/lib/utils'
 
 const navLinks = [
-  { href: '#work', label: 'Work' },
-  { href: '#services', label: 'Services' },
-  { href: '#about', label: 'About' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/platforms', label: 'Platforms' },
+  { href: '/technology', label: 'Technology' },
+  { href: '/case-studies', label: 'Case Studies' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 export function Navigation() {
@@ -19,6 +19,7 @@ export function Navigation() {
   const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     setMounted(true)
@@ -27,81 +28,67 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-    setMobileOpen(false)
-    const target = document.querySelector(href)
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-  }
-
   return (
     <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'glass border-b border-white/5 py-3'
-          : 'bg-transparent py-5'
-      )}
+          ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 py-4'
+          : 'bg-transparent py-6'
+      }`}
     >
-      <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <nav className="max-w-6xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link
-          href="/"
-          className="text-xl font-bold tracking-tight hover:opacity-80 transition-opacity"
-        >
-          <span className="gradient-text">Strata</span>
+        <Link href="/" className="text-xl font-black tracking-tighter text-white hover:opacity-80 transition-opacity">
+          Strata
         </Link>
 
         {/* Desktop Links */}
         <ul className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <a
+              <Link
                 href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="text-sm text-muted hover:text-foreground transition-colors duration-200 font-medium tracking-wide"
+                className={`text-sm font-medium transition-colors ${
+                  pathname === link.href
+                    ? 'text-white'
+                    : 'text-white/60 hover:text-white'
+                }`}
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          {/* Theme toggle */}
           {mounted && (
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-lg hover:bg-surface transition-colors duration-200"
+              className="p-2 rounded-lg hover:bg-white/10 transition-colors"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-muted hover:text-foreground" />
+                <Sun className="w-4 h-4 text-white/60" />
               ) : (
-                <Moon className="w-4 h-4 text-muted hover:text-foreground" />
+                <Moon className="w-4 h-4 text-white/60" />
               )}
             </button>
           )}
 
-          {/* CTA button desktop */}
-          <a
-            href="#contact"
-            onClick={(e) => handleNavClick(e, '#contact')}
-            className="hidden md:inline-flex items-center px-4 py-2 rounded-lg bg-accent text-white text-sm font-semibold hover:bg-accent-dark transition-colors duration-200"
+          <Link
+            href="/contact"
+            className="hidden md:inline-flex items-center px-4 py-2 rounded-lg bg-white text-black text-sm font-semibold hover:bg-gray-100 transition-colors"
           >
             Start a Project
-          </a>
+          </Link>
 
-          {/* Mobile menu toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-surface transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
           </button>
         </div>
       </nav>
@@ -114,28 +101,28 @@ export function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden glass border-t border-white/5 px-6 py-4"
+            className="md:hidden bg-black/95 backdrop-blur-xl border-b border-white/10 px-6 py-6"
           >
             <ul className="flex flex-col gap-4">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className="block text-sm font-medium text-muted hover:text-foreground transition-colors"
+                    onClick={() => setMobileOpen(false)}
+                    className="block text-white/70 hover:text-white text-lg font-medium transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
-              <li>
-                <a
-                  href="#contact"
-                  onClick={(e) => handleNavClick(e, '#contact')}
-                  className="inline-flex items-center px-4 py-2 rounded-lg bg-accent text-white text-sm font-semibold"
+              <li className="pt-4 border-t border-white/10">
+                <Link
+                  href="/contact"
+                  onClick={() => setMobileOpen(false)}
+                  className="inline-flex items-center px-5 py-2.5 rounded-lg bg-white text-black text-sm font-semibold"
                 >
                   Start a Project
-                </a>
+                </Link>
               </li>
             </ul>
           </motion.div>
